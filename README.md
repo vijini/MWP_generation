@@ -1,5 +1,5 @@
 # MWP_generation
-If you use the code in your paper, please kindly star this repo and cite our papers,
+If you use the code/ data in your paper, please kindly star this repo and cite our papers,
 1. A Multi-language Platform for Generating Algebraic Mathematical Word Problems
 
 @article{liyanage2019multi,
