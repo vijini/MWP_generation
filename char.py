@@ -3,7 +3,7 @@ import numpy
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import Dropout
-from keras.layers import LSTM
+from keras.layers import LSTM , TimeDistributed , Dense, Dropout, Bidirectional, Concatenate, Embedding,Softmax, GRU, CuDNNGRU
 from keras.callbacks import ModelCheckpoint
 from keras.utils import np_utils
 import sys
