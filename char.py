@@ -3,7 +3,8 @@ import numpy
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import Dropout
-from keras.layers import LSTM , TimeDistributed , Dense, Dropout, Bidirectional, Concatenate, Embedding,Softmax, GRU, CuDNNGRU
+from keras.layers import LSTM , TimeDistributed , Dense, Dropout, Bidirectional, Concatenate, Embedding, Softmax , GRU, CuDNNGRU
+from keras.layers import Lambda, concatenate, BatchNormalization
 from keras.callbacks import ModelCheckpoint
 from keras.utils import np_utils
 import sys
@@ -48,6 +49,23 @@ X = X / float(n_vocab)
 y = np_utils.to_categorical(dataY)
 
 # define the LSTM model
+
+def _build_character_block(
+    self, block, dropout=0.3, 
+    filters=[64, 100], kernel_size=[3, 3], 
+    pool_size=[2, 2], padding='valid', activation='relu', 
+    kernel_initializer='glorot_normal'):
+        
+    for i in range(len(filters)):
+        block = Conv1D(
+            filters=filters[i], kernel_size=kernel_size[i],
+            padding=padding, activation=activation,
+            kernel_initializer=kernel_initializer)(block)
+        block = Dropout(dropout)(block)
+        block = MaxPooling1D(pool_size=pool_size[i])(block)
+    block = GlobalMaxPool1D()(block)
+    block = Dense(128, activation='relu')(block)
+    return block
 
 model = Sequential()
 model.add(Bidirectional(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences=True)))
